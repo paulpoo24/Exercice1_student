@@ -99,7 +99,7 @@ double dist_s_l;     // Distance satellite-Lune
         while(error>tol && iteration<=maxit){
           
         	y = yold+(alpha*compute_f(yold)+(1-alpha)*compute_f(y))*t; // MODIFIER et COMPLETER
-          y_control=y;
+          
           error=abs(y-yold-((alpha*f(yold))+(1-alpha)*f(y))*dt)
         	iteration += 1;
 	}	
@@ -135,7 +135,7 @@ public:
       maxit    = configFile.get<unsigned int>("maxit", maxit);
       alpha    = configFile.get<double>("alpha", alpha);
       // TODO: calculer le time step
-      dt       = 0; 
+      dt       = 1; 
 
       
       // Ouverture du fichier de sortie
