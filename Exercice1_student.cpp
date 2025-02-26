@@ -70,15 +70,19 @@ double dist_s_l;     // Distance satellite-Lune
 
     void compute_f(valarray<double>& f) //  TODO: Calcule le tableau de fonctions f(y)
     {
-      f[0] = -G_grav*ml*(y[2]-xl)/(pow(sqrt(pow((y[2]-xl), 2) + pow(y[3], 2)), 3)) 
-            - G_grav*mt*(y[2]+xt)/(pow(sqrt(pow((y[2]+xt), 2) + pow(y[3], 2)), 3)) 
-            + 2*Om*y[1] + Om*Om*y[2];
-
-      f[1] = -G_grav*ml*y[3]/(pow(sqrt(pow((y[2]-xl), 2) + pow(y[3], 2)), 3)) 
-             -G_grav*mt*y[3]/(pow(sqrt(pow((y[2]+xt), 2) + pow(y[3], 2)), 3)) 
-             +2*Om*y[0] + Om*Om*y[3];
-      f[2]      = y[0]; 
-      f[3]      = y[1]; 
+      double dsl = sqrt(pow((y[2] - xl), 2) + pow(y[3], 2));
+      double dst = sqrt(pow((y[2] + xt), 2) + pow(y[3], 2));
+      if (dsl < 1e-10 || dst < 1e-10) {
+        cerr << "Erreur : Division par zéro évitée !" << endl;
+        return;
+        }
+        f[0] = -G_grav * ml * (y[2] - xl) / pow(dsl, 3) 
+        - G_grav * mt * (y[2] + xt) / pow(dst, 3) 
+        + 2 * Om * y[1] + Om * Om * y[2];
+        
+        f[1] = -G_grav*ml*y[3]/(pow(sqrt(pow((y[2]-xl), 2) + pow(y[3], 2)), 3))  -G_grav*mt*y[3]/(pow(sqrt(pow((y[2]+xt), 2) + pow(y[3], 2)), 3))  +2*Om*y[0] + Om*Om*y[3];
+        f[2]      = y[0]; 
+        f[3]      = y[1]; 
     }
 
     // New step method from EngineEuler
@@ -95,12 +99,15 @@ double dist_s_l;     // Distance satellite-Lune
       // tel que alpha=1 correspond à Euler explicite et alpha=0 à Euler implicite 
       // et alpha=0.5 à Euler semi-implicite
       if(alpha >= 0. && alpha <= 1.0){
-        t += dt;                 //mise à jour du temps 
+        t += dt; 
+        compute_f(y_control); // Remplit f avec les valeurs correctes
+       
         while(error>tol && iteration<=maxit){
-          
-        	y = yold+(alpha*compute_f(yold)+(1-alpha)*compute_f(y))*t; // MODIFIER et COMPLETER
-          
-          error=abs(y-yold-((alpha*f(yold))+(1-alpha)*f(y))*dt)
+          compute_f(delta_y_EE);
+        	
+          y = yold + (alpha * y_control + (1 - alpha) * delta_y_EE) * t;// MODIFIER et COMPLETER
+          delta_y_EE = y;
+          error = abs(y - yold - ((alpha * y_control) + (1 - alpha) * delta_y_EE) * dt).min();
         	iteration += 1;
 	}	
         if(iteration>=maxit){
@@ -154,10 +161,10 @@ public:
     void run()
     {
       // TODO : initialiser la position de la Terre et de la Lune, ainsi que la position de X' du satellite et Omega
-      Om = sqrt(G_grav*mt/(dist^2*xl));
+      xl = dist * mt / (ml + mt);  // Cette formule semble plus correcte
       xt = dist*ml/(ml+mt);
-      xl = dist*mt*(ml+mt); 
-      y0[2] = dist*(mt/(mt+ml)-a*sqrt(ml)/(sqrt(mt)+sqrt(ml)));
+      Om = sqrt(G_grav * mt / (pow(dist, 2) * xl));  // Remplacer `^2` par `pow(dist, 2)` 
+      y0[2] = dist*(mt/(mt+ml)- sqrt(ml)/(sqrt(mt)+sqrt(ml)));
       
 
       t = 0.e0; // initialiser le temps
