@@ -6,17 +6,17 @@ import os
 
 # Parameters
 # TODO adapt to what you need (folder path executable input filename)
-executable = 'exe.exe'  # Name of the executable (NB: .exe extension is required on Windows)
-repertoire = r"C:/Users/Administrator/physnum/2025/EX1/SOLUTION/"
+executable = './exo'  # Name of the executable (NB: .exe extension is required on Windows)
+repertoire = r"/Users/arnaud/Desktop/EPFL/Physnum/Exercice1_student"
 os.chdir(repertoire)
 
 input_filename = 'configuration.in.example'  # Name of the input file
 
 
-nsteps = np.array([4000, 6000, 10000, 14e3, 20e3]) # TODO change
+nsteps = np.array([4000]) # TODO change ok
 nsimul = len(nsteps)  # Number of simulations to perform
 
-tfin = 259200  # TODO: Verify that the value of tfin is EXACTLY the same as in the input file
+tfin = 259200  # TODO: Verify that the value of tfin is EXACTLY the same as in the input file ok
 
 dt = tfin / nsteps
 
@@ -55,7 +55,7 @@ lw = 1.5
 fs = 16
 
 fig, ax = plt.subplots(constrained_layout=True)
-ax.plot(data[:, 1], data[:, 2])
+ax.plot(data[:, 3], data[:, 4])
 ax.set_xlabel('x [m]', fontsize=fs)
 ax.set_ylabel('y [m]', fontsize=fs)
 

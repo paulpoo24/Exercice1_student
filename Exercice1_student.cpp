@@ -103,7 +103,7 @@ double dist_s_l;     // Distance satellite-Lune
           y = yold+(alpha*y_control+(1-alpha)*delta_y_EE)*dt; // MODIFIER et COMPLETER
           delta_y_EE=y;
           compute_f(delta_y_EE);
-          error=abs(y-yold-((alpha*y_control)+(1-alpha)*delta_y_EE)*dt).min();
+          error=abs(y-yold-((alpha*y_control)+(1-alpha)*delta_y_EE)*dt).max();
           iteration += 1;
   } 
         if(iteration>=maxit){
