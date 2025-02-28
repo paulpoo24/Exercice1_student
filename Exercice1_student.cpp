@@ -52,7 +52,7 @@ double dist_s_l;     // Distance satellite-Lune
   {
   // TODO calculer l'energie mecanique
   double Energy =  (0.5) * (pow(y[0], 2) + pow(y[1], 2)) 
-                   + G_grav * (mt / sqrt(pow(y[2] - xt, 2) + pow(y[3], 2)) 
+                   + G_grav * (mt / sqrt(pow(y[2] -xt, 2) + pow(y[3], 2)) 
                    + ml / sqrt(pow(y[2] - xl, 2) + pow(y[3], 2))) 
                    - (0.5) * pow(Om, 2) * (pow(y[2], 2) + pow(y[3], 2));
     // Ecriture tous les [sampling] pas de temps, sauf si write est vrai
@@ -76,7 +76,7 @@ double dist_s_l;     // Distance satellite-Lune
 
       f[1] = -G_grav*ml*y[3]/(pow(sqrt(pow((y[2]-xl), 2) + pow(y[3], 2)), 3)) 
              -G_grav*mt*y[3]/(pow(sqrt(pow((y[2]-xt), 2) + pow(y[3], 2)), 3)) 
-             +2*Om*y[0] + Om*Om*y[3];
+             -2*Om*y[0] - Om*Om*y[3];
       f[2]      = y[0]; 
       f[3]      = y[1]; 
     }
@@ -100,12 +100,12 @@ double dist_s_l;     // Distance satellite-Lune
         while(error>tol && iteration<=maxit){
           
           compute_f(delta_y_EE);
-          y = yold+(alpha*y_control+(1-alpha)*delta_y_EE)*dt; // MODIFIER et COMPLETER
+        	y = yold+(alpha*y_control+(1-alpha)*delta_y_EE)*dt; // MODIFIER et COMPLETER
           delta_y_EE=y;
           compute_f(delta_y_EE);
           error=abs(y-yold-((alpha*y_control)+(1-alpha)*delta_y_EE)*dt).max();
-          iteration += 1;
-  } 
+        	iteration += 1;
+	}	
         if(iteration>=maxit){
           cout << "WARNING: maximum number of iterations reached, error: " << error << endl;
         }
@@ -123,12 +123,12 @@ public:
     Engine(ConfigFile configFile)
     {
       // Stockage des parametres de simulation dans les attributs de la classe
-      tfin     = configFile.get<double>("tfin",tfin);      // MO  // lire le temps final de simulation
+      tfin     = configFile.get<double>("tfin",tfin);	     // MO  // lire le temps final de simulation
       nsteps   = configFile.get<unsigned int>("nsteps",nsteps); // lire le nombre de pas de temps
-      y0[0]    = configFile.get<double>("vx0",y0[0]);  // vitesse initiale selon x      
+      y0[0]    = configFile.get<double>("vx0",y0[0]);  // vitesse initiale selon x	    
       y0[1]    = configFile.get<double>("vy0",y0[1]);  // vitesse initiale selon y       
       y0[2]    = configFile.get<double>("x0",y0[2]);   // position initiale selon x       
-      y0[3]    = configFile.get<double>("y0",y0[3]);   // position initiale selon y     
+      y0[3]    = configFile.get<double>("y0",y0[3]);   // position initiale selon y	    
       G_grav   = configFile.get<double>("G_grav",G_grav);           
       ml       = configFile.get<double>("ml",ml);            
       mt       = configFile.get<double>("mt",mt);        
