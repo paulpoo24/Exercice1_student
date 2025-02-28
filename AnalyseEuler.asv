@@ -1,18 +1,18 @@
-fname1= 'nsteps=4000alpha=05.out' % put your own file name
-fname2= 'nsteps=4000alpha=1.out' % put your own file name
-fname3= 'nsteps=4000alpha=0.out' % put your own file name
+fname1= '' % put your own file name
+fname2= '' % put your own file name
+fname3= '' % put your own file name
 
 % (un)comment the lines coresponding to the (desired)undesired analysed cases
 
 data=load(fname1);
-t1 = data(:,3);
-y1 = data(:,4);
+t1 = data(:,1);
+y1 = data(:,2);
 data=load(fname2);
-t2 = data(:,3);
-y2 = data(:,4);
+t2 = data(:,1);
+y2 = data(:,2);
 data=load(fname3);
-t3 = data(:,3);
-y3 = data(:,4);
+t3 = data(:,1);
+y3 = data(:,2);
 %data=load(fname4);
 %t4 = data(:,1);
 %y4 = data(:,2);

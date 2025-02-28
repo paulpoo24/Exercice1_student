@@ -38,6 +38,7 @@ for i in range(nsimul):
 
 error = np.zeros(nsimul)
 
+fig, ax = plt.subplots(constrained_layout=True)
 for i in range(nsimul):  # Iterate through the results of all simulations
     data = np.loadtxt(outputs[i])  # Load the output file of the i-th simulation
     t = data[:, 0]
@@ -51,13 +52,12 @@ for i in range(nsimul):  # Iterate through the results of all simulations
     # TODO compute the error for each simulation
     error[i] =  0 
 
-lw = 1.5
-fs = 16
+    lw = 1.5
+    fs = 16
 
-fig, ax = plt.subplots(constrained_layout=True)
-ax.plot(data[:, 3], data[:, 4])
-ax.set_xlabel('x [m]', fontsize=fs)
-ax.set_ylabel('y [m]', fontsize=fs)
+    ax.plot(data[:, 3], data[:, 4])
+    ax.set_xlabel('x [m]', fontsize=fs)
+    ax.set_ylabel('y [m]', fontsize=fs)
 
 
 
