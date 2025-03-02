@@ -54,10 +54,15 @@ for i in range(nsimul):  # Iterate through the results of all simulations
 
     lw = 1.5
     fs = 16
+    
+    x = data[:, 3]
+    y = data[:, 4]
+    E = data[:, 5]
+    d = np.sqrt(x**2 + y**2)
 
-    ax.plot(data[:, 3], data[:, 4])
-    ax.set_xlabel('x [m]', fontsize=fs)
-    ax.set_ylabel('y [m]', fontsize=fs)
+    ax.plot(t, E)
+    ax.set_xlabel('t [s]', fontsize=fs)
+    ax.set_ylabel('Emec/m [J/kg]', fontsize=fs)
 
 
 
