@@ -13,7 +13,7 @@ os.chdir(repertoire)
 input_filename = 'configuration.in.example'  # Name of the input file
 
 
-nsteps = np.array([4000]) # TODO change ok
+nsteps = np.array([40000]) # TODO change ok
 nsimul = len(nsteps)  # Number of simulations to perform
 
 tfin = 259200  # TODO: Verify that the value of tfin is EXACTLY the same as in the input file ok
@@ -62,7 +62,7 @@ for i in range(nsimul):  # Iterate through the results of all simulations
 
     ax.plot(t, E)
     ax.set_xlabel('t [s]', fontsize=fs)
-    ax.set_ylabel('Emec/m [J/kg]', fontsize=fs)
+    ax.set_ylabel('Emec [J]', fontsize=fs)
 
 
 

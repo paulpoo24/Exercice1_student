@@ -53,7 +53,7 @@ private:
         double Energy =  0.5 * (pow(y[0], 2) + pow(y[1], 2))   
                - G_grav * (mt / sqrt(pow(y[2] - xt, 2) + pow(y[3], 2))  
                + ml / sqrt(pow(y[2] - xl, 2) + pow(y[3], 2)))            
-               - 0.5 * pow(Om, 2) * (pow(y[2], 2) + pow(y[3], 2));
+               - 0.5 * pow(Om, 2) * (pow(y[2], 2) + pow(y[3], 2));  //ms n'apparait pas car il est = 1
 
         // Écriture tous les [sampling] pas de temps, sauf si write est vrai
         if ((!write && last >= sampling) || (write && last != 1)) {
