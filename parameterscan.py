@@ -14,7 +14,7 @@ os.chdir(repertoire)
 input_filename = 'configuration.in.example'  # Name of the input file
 
 
-nsteps = np.array([4000]) # TODO change ok
+nsteps = np.array([40000]) # TODO change ok
 nsimul = len(nsteps)  # Number of simulations to perform
 
 tfin = 259200  # TODO: Verify that the value of tfin is EXACTLY the same as in the input file ok
@@ -71,7 +71,7 @@ dist_s_l = np.sqrt((xl - np.array(x))**2 + np.array(y)**2)
 fig, ax = plt.subplots()
 
 # Tracé de la trajectoire
-ax.plot(t, E)
+ax.plot(t, E, color='b')
 
 
 # Configuration des axes et de la légende
