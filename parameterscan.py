@@ -14,7 +14,7 @@ os.chdir(repertoire)
 input_filename = 'configuration.in.example'  # Name of the input file
 
 
-nsteps = np.array([40000]) # TODO change ok
+nsteps = np.array([4000]) # TODO change ok
 nsimul = len(nsteps)  # Number of simulations to perform
 
 tfin = 259200  # TODO: Verify that the value of tfin is EXACTLY the same as in the input file ok
@@ -71,47 +71,12 @@ dist_s_l = np.sqrt((xl - np.array(x))**2 + np.array(y)**2)
 fig, ax = plt.subplots()
 
 # Tracé de la trajectoire
-ax.plot(x, y)
+ax.plot(t, E)
 
-# Ajout du cercle de centre (xl, 0) et de rayon 1737100
-rayon = 1737100
-cercle = patches.Circle((xl, 0), rayon, color='k', fill=False, linestyle='-')
-ax.add_patch(cercle)
-
-# Détection du premier point d'intersection
-first_intersection = None
-
-for i in range(len(dist_s_l) - 1):
-    # Vérifie si un point est exactement sur le cercle
-    if dist_s_l[i] == rayon:
-        first_intersection = (x[i], y[i])
-        break
-    # Vérifie si la trajectoire traverse le cercle entre deux points
-    elif (dist_s_l[i] < rayon and dist_s_l[i+1] > rayon) or (dist_s_l[i] > rayon and dist_s_l[i+1] < rayon):
-        # Interpolation linéaire pour estimer le point exact
-        alpha = (rayon - dist_s_l[i]) / (dist_s_l[i+1] - dist_s_l[i])
-        x_inter = x[i] + alpha * (x[i+1] - x[i])
-        y_inter = y[i] + alpha * (y[i+1] - y[i])
-        first_intersection = (x_inter, y_inter)
-        break  # On arrête dès qu'on a trouvé le premier point
-
-# Si un point d'intersection est trouvé, l'afficher
-if first_intersection:
-    xi, yi = first_intersection
-    ax.scatter(xi, yi, color='red', zorder=3, marker=".", s=100)
-    # Texte formaté avec boîte et couleurs
-    textstr = f"X  {xi:,.0f}\nY  {yi:,.0f}"
-    
-    # Ajout d'une annotation avec une boîte de fond
-    ax.annotate(textstr, (xi, yi),
-                xytext=(xi + 2e6, yi - 1e6),  # Décalage du texte
-                fontsize=12, color="red",
-                bbox=dict(boxstyle="round,pad=0.3", edgecolor='black', facecolor='white'))
 
 # Configuration des axes et de la légende
 ax.set_xlabel('x [m]', fontsize=fs)
 ax.set_ylabel('y [m]', fontsize=fs)
-ax.set_aspect('equal', adjustable='datalim')  # Pour que le cercle soit bien proportionné
 ax.legend()
 
 # Affichage
