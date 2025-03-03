@@ -67,11 +67,15 @@ private:
 
     /* Fonction pour calculer le tableau de fonctions f(y) */
     void compute_f(valarray<double>& f) {
-        compute_distance(); 
-        f[0] = G_grav * (ml * (xl - y[2]) / pow(dist_s_l, 3) + mt * (xt - y[2]) / pow(dist_s_t, 3)) + 2 * y[1] * Om + pow(Om, 2) * y[2];
-        f[1] = -G_grav * y[3] * (ml / pow(dist_s_l, 3) + mt / pow(dist_s_t, 3)) - 2 * y[0] * Om + pow(Om, 2) * y[3];
-        f[2] = y[0];
-        f[3] = y[1];
+        f[0] = -G_grav*ml*(y[2]-xl)/(pow(sqrt(pow((y[2]-xl), 2) + pow(y[3], 2)), 3)) 
+            - G_grav*mt*(y[2]-xt)/(pow(sqrt(pow((y[2]-xt), 2) + pow(y[3], 2)), 3)) 
+            + 2*Om*y[1] + Om*Om*y[2];
+
+      f[1] = -G_grav*ml*y[3]/(pow(sqrt(pow((y[2]-xl), 2) + pow(y[3], 2)), 3)) 
+             -G_grav*mt*y[3]/(pow(sqrt(pow((y[2]-xt), 2) + pow(y[3], 2)), 3)) 
+             -2*Om*y[0] + Om*Om*y[3];
+      f[2]      = y[0]; 
+      f[3]      = y[1];
     }
 
 
