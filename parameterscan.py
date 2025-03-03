@@ -13,13 +13,12 @@ os.chdir(repertoire)
 input_filename = 'configuration.in.example'  # Name of the input file
 
 
-nsteps = np.array([4000]) # TODO change ok
+nsteps = np.array([2000,4000,8000,12000,16000,20000,30000,40000,50000,100000]) # TODO change ok
 nsimul = len(nsteps)  # Number of simulations to perform
 
 tfin = 259200  # TODO: Verify that the value of tfin is EXACTLY the same as in the input file ok
 
 dt = tfin / nsteps
-
 
 paramstr = 'nsteps'  # Parameter name to scan
 param = nsteps  # Parameter values to scan
@@ -48,7 +47,7 @@ for i in range(nsimul):  # Iterate through the results of all simulations
     xx = data[-1, 3]
     yy = data[-1, 4]
     En = data[-1, 5]
-    convergence_list.append(xx)
+    convergence_list.append(yy)
     # TODO compute the error for each simulation
     error[i] =  0 
 
@@ -59,6 +58,7 @@ for i in range(nsimul):  # Iterate through the results of all simulations
     y = data[:, 4]
     E = data[:, 5]
     d = np.sqrt(x**2 + y**2)
+    
 
     ax.plot(t, E)
     ax.set_xlabel('t [s]', fontsize=fs)
@@ -70,9 +70,10 @@ for i in range(nsimul):  # Iterate through the results of all simulations
 #import pdb
 #pbd.set_trace()
 plt.figure()
-plt.loglog(dt, error, 'r+-', linewidth=lw)
-plt.xlabel('\Delta t [s]', fontsize=fs)
-plt.ylabel('final position error [m]', fontsize=fs)
+plt.plot(1/(np.array(nsteps)), convergence_list, 'r+-', linewidth=lw)
+plt.xlabel('$1/N_s$', fontsize=fs)
+plt.ticklabel_format(style='sci', axis='x', scilimits=(-4,-4))
+plt.ylabel('$y_{end}$ [m]', fontsize=fs)
 plt.xticks(fontsize=fs)
 plt.yticks(fontsize=fs)
 plt.grid(True)
@@ -85,7 +86,7 @@ en fonction de (Delta t)^norder, ou norder est un entier.
 norder = 1  # Modify if needed
 
 plt.figure()
-plt.plot(dt**norder, convergence_list, 'k+-', linewidth=lw)
+plt.plot(dt**norder, convergence_list, 'b+-', linewidth=lw)
 plt.xlabel('\Delta t [s]', fontsize=fs)
 plt.ylabel('v_y [m/s]', fontsize=fs)
 plt.xticks(fontsize=fs)
