@@ -41,7 +41,7 @@ private:
     double t, dt;       // Temps courant, pas de temps
     unsigned int sampling, last; // Nombre de pas de temps entre chaque ecriture des diagnostics
     ofstream *outputFile; // Pointeur vers le fichier de sortie
-    void compute_distance() {dist_s_t = sqrt(pow(xt - y[2], 2) + pow(y[3], 2)); dist_s_l = sqrt(pow(xl - y[2], 2) + pow(y[3], 2));}
+    
 
 
     /* Calculer et ecrire les diagnostics dans un fichier
